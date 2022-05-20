@@ -1,3 +1,7 @@
+const yargs = require("yargs/yargs");
+const { hideBin } = require("yargs/helpers");
+const cTable = require("console.table");
+
 const contactsOperations = require("./contacts");
 //console.log(contactsOperations);
 
@@ -6,7 +10,7 @@ async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
       const contacts = await contactsOperations.listContacts();
-      console.log(contacts);
+      console.table(contacts);
       break;
 
     case "get":
@@ -24,7 +28,8 @@ async function invokeAction({ action, id, name, email, phone }) {
       break;
 
     case "remove":
-      // ... id
+      const removeContact = await contactsOperations.removeContact(id);
+      console.log(removeContact);
       break;
 
     default:
@@ -32,13 +37,21 @@ async function invokeAction({ action, id, name, email, phone }) {
   }
 }
 
+const arr = hideBin(process.argv);
+
+const { argv } = yargs(arr);
+
+invokeAction(argv);
 /* invokeAction({ action: "list" }); */
 
 /* invokeAction({ action: "get", id: "8" }); */
 
-invokeAction({
+/* invokeAction({
   action: "add",
   name: "Taras",
   email: "tre@gmail.com",
   phone: "(748) 758-4896",
 });
+ */
+
+/* invokeAction({ action: "remove", id: "355dcca2-8350-4bb9-bcaf-850bd83a5116" }); */
