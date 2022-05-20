@@ -8,8 +8,6 @@ const contactsBasePath = "db/contacts.json";
 const contactsPath = path.join(__dirname, contactsBasePath);
 console.log(contactsPath);
 
-// TODO: задокументировать каждую функцию
-
 async function listContacts() {
   const data = await fs.readFile(contactsPath);
   const contacts = JSON.parse(data);

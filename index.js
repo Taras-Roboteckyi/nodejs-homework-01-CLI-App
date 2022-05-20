@@ -1,11 +1,8 @@
-const yargs = require("yargs/yargs");
-const { hideBin } = require("yargs/helpers");
+const { program } = require("commander");
 const cTable = require("console.table");
 
 const contactsOperations = require("./contacts");
-//console.log(contactsOperations);
 
-// TODO: рефакторить
 async function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
@@ -37,21 +34,15 @@ async function invokeAction({ action, id, name, email, phone }) {
   }
 }
 
-const arr = hideBin(process.argv);
+program
+  .option("-a, --action <type>", "contact operation")
+  .option("-i, --id <type>", "contact id")
+  .option("-n, --name <type>", "contact name")
+  .option("-e, --email <type>", "contact email")
+  .option("-p, --phone <type>", "contact phone");
 
-const { argv } = yargs(arr);
+program.parse(process.argv);
 
-invokeAction(argv);
-/* invokeAction({ action: "list" }); */
+const options = program.opts();
 
-/* invokeAction({ action: "get", id: "8" }); */
-
-/* invokeAction({
-  action: "add",
-  name: "Taras",
-  email: "tre@gmail.com",
-  phone: "(748) 758-4896",
-});
- */
-
-/* invokeAction({ action: "remove", id: "355dcca2-8350-4bb9-bcaf-850bd83a5116" }); */
+invokeAction(options);
